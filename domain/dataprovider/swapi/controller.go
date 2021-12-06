@@ -1,5 +1,7 @@
 package swapi
 
+// responsible for order and organize SWAPI data, using the search term
+
 import (
 	"errors"
 )
@@ -14,7 +16,7 @@ type Result struct {
 
 func (result Result) Search(searchTerm string) (Result, error) {
 	// Request is being imported from ./router.go
-	people, err := Request(searchTerm, "people")
+	people, err := request(searchTerm, "people")
 
 	if err != nil {
 		var emptyResult Result
@@ -24,7 +26,7 @@ func (result Result) Search(searchTerm string) (Result, error) {
 	result.People = people
 
 	// Request is being imported from ./router.go
-	planets, err := Request(searchTerm, "planets")
+	planets, err := request(searchTerm, "planets")
 
 	if err != nil {
 		var emptyResult Result
@@ -34,7 +36,7 @@ func (result Result) Search(searchTerm string) (Result, error) {
 	result.Planets = planets
 
 	// Request is being imported from ./router.go
-	films, err := Request(searchTerm, "films")
+	films, err := request(searchTerm, "films")
 
 	if err != nil {
 		var emptyResult Result
@@ -44,7 +46,7 @@ func (result Result) Search(searchTerm string) (Result, error) {
 	result.Films = films
 
 	// Request is being imported from ./router.go
-	species, err := Request(searchTerm, "species")
+	species, err := request(searchTerm, "species")
 
 	if err != nil {
 		var emptyResult Result
@@ -54,7 +56,7 @@ func (result Result) Search(searchTerm string) (Result, error) {
 	result.Species = species
 
 	// Request is being imported from ./router.go
-	vehicles, err := Request(searchTerm, "vehicles")
+	vehicles, err := request(searchTerm, "vehicles")
 
 	if err != nil {
 		var emptyResult Result
@@ -64,7 +66,7 @@ func (result Result) Search(searchTerm string) (Result, error) {
 	result.Vehicles = vehicles
 
 	// Request is being imported from ./router.go
-	starships, err := Request(searchTerm, "starships")
+	starships, err := request(searchTerm, "starships")
 
 	if err != nil {
 		var emptyResult Result

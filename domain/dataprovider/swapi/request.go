@@ -1,5 +1,7 @@
 package swapi
 
+// responsible for get data in the SWAPI
+
 import (
 	"encoding/json"
 	"errors"
@@ -9,7 +11,7 @@ import (
 	"github.com/SousaGLucas/swsearch/log"
 )
 
-func GetData(url string) (map[string]interface{}, error) {
+func getData(url string) (map[string]interface{}, error) {
 	emptyData := make(map[string]interface{})
 
 	resp, err := http.Get(url)
@@ -19,7 +21,7 @@ func GetData(url string) (map[string]interface{}, error) {
 		return emptyData, errors.New("api request error")
 	}
 
-	// defer resp.Body.Close()
+	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 
