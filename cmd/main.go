@@ -1,38 +1,53 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 
-	"github.com/SousaGLucas/swsearch/domain/dataprovider/swapi"
+	"github.com/SousaGLucas/swsearch/domain/dataprovider/cache" // package responsible for save cache data
+	"github.com/SousaGLucas/swsearch/domain/service"            // package responsible for manage the business rule
 )
 
 func main() {
-	var search swapi.Swapi
+	fmt.Printf("CONSULATA 1: 'Sky'\n\n")
+	search("Sky") // search function call
 
-	search = &swapi.Result{}
+	fmt.Printf("CONSULATA 2: 'r2'\n\n")
+	search("r2") // search function call
 
-	searchTerm := "sky"
+	fmt.Printf("CONSULATA 3: 'Sky'\n\n")
+	search("Sky") // search function call
 
-	result, err := search.Search(searchTerm)
+	clearChache() // clear cache
+	fmt.Printf("\nCACHE DELETADO!\n\n")
+
+	fmt.Printf("CONSULATA 4: 'Sky'\n\n")
+	search("Sky") // search function call
+}
+
+// resposible for get survey data --> **test function
+func search(searchTerm string) {
+	var response service.Service
+	response = service.Result{}
+
+	data, err := response.GetData(searchTerm) // get survey data
 
 	if err != nil {
+		fmt.Printf("ERROR: %v\n", err)
 		return
 	}
 
-	people, _ := json.Marshal(result.People["results"])
-	planets, _ := json.Marshal(result.Planets["results"])
-	films, _ := json.Marshal(result.Films["results"])
-	species, _ := json.Marshal(result.Species["results"])
-	vehicles, _ := json.Marshal(result.Vehicles["results"])
-	starships, _ := json.Marshal(result.Starships["results"])
+	fmt.Printf("Responsta: %v\n\n", data) // print response
 
-	fmt.Printf("\nResults for '%v':\n\n", searchTerm)
+	cacheData := cache.GetCache()          // get current cache data
+	fmt.Printf("CACHE: %v\n\n", cacheData) // print current cache data
+	return
+}
 
-	fmt.Printf("People:\n\n %v\n\n", string(people))
-	fmt.Printf("Planets:\n\n %v\n\n", string(planets))
-	fmt.Printf("Films:\n\n %v\n\n", string(films))
-	fmt.Printf("Species:\n\n %v\n\n", string(species))
-	fmt.Printf("Vehicles:\n\n %v\n\n", string(vehicles))
-	fmt.Printf("Starships:\n\n %v\n\n", string(starships))
+// responsible for clear cache data --> **test function
+func clearChache() {
+	var response service.Service
+	response = service.Result{}
+
+	response.ClearCache() // clear cache data
+	return
 }
