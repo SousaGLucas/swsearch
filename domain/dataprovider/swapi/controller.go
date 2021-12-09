@@ -1,79 +1,79 @@
 package swapi
 
+// package responsible for provide swapi data
 // responsible for order and organize SWAPI data, using the search term
 
 import (
 	"errors"
+
+	"github.com/SousaGLucas/swsearch/domain/entities/swdata" // package responsible for mirror database data
 )
 
 type Swapi interface {
-	Search(searchTerm string) (Result, error)
+	Search(searchTerm string) (swdata.Data, error) // responsible for call serach swapi data function for each api route
 }
 
-type Result struct {
-	People, Planets, Films, Species, Vehicles, Starships map[string]interface{}
-}
+// mirror that database data
+type Result swdata.Data
 
-func (result Result) Search(searchTerm string) (Result, error) {
-	// Request is being imported from ./router.go
-	people, err := request(searchTerm, "people")
+// responsible for call serach swapi data function for each api route
+func (result Result) Search(searchTerm string) (swdata.Data, error) {
+	var emptyData swdata.Data // empty variable to return in the error cases
+	var data swdata.Data      // variable for save api data
 
-	if err != nil {
-		var emptyResult Result
-		return emptyResult, errors.New("api request error")
-	}
-
-	result.People = people
-
-	// Request is being imported from ./router.go
-	planets, err := request(searchTerm, "planets")
+	// request is being imported from ./router.go
+	people, err := request(searchTerm, "people") // get data for the 'people' route
 
 	if err != nil {
-		var emptyResult Result
-		return emptyResult, errors.New("api request error")
+		return emptyData, errors.New("api request error")
 	}
 
-	result.Planets = planets
+	data.People = people
 
-	// Request is being imported from ./router.go
-	films, err := request(searchTerm, "films")
+	// request is being imported from ./router.go
+	planets, err := request(searchTerm, "planets") // get data for the 'planets' route
 
 	if err != nil {
-		var emptyResult Result
-		return emptyResult, errors.New("api request error")
+		return emptyData, errors.New("api request error")
 	}
 
-	result.Films = films
+	data.Planets = planets
 
-	// Request is being imported from ./router.go
-	species, err := request(searchTerm, "species")
+	// request is being imported from ./router.go
+	films, err := request(searchTerm, "films") // get data for the 'films' route
 
 	if err != nil {
-		var emptyResult Result
-		return emptyResult, errors.New("api request error")
+		return emptyData, errors.New("api request error")
 	}
 
-	result.Species = species
+	data.Films = films
 
-	// Request is being imported from ./router.go
-	vehicles, err := request(searchTerm, "vehicles")
+	// request is being imported from ./router.go
+	species, err := request(searchTerm, "species") // get data for the 'species' route
 
 	if err != nil {
-		var emptyResult Result
-		return emptyResult, errors.New("api request error")
+		return emptyData, errors.New("api request error")
 	}
 
-	result.Vehicles = vehicles
+	data.Species = species
 
-	// Request is being imported from ./router.go
-	starships, err := request(searchTerm, "starships")
+	// request is being imported from ./router.go
+	vehicles, err := request(searchTerm, "vehicles") // get data for the 'vehicles' route
 
 	if err != nil {
-		var emptyResult Result
-		return emptyResult, errors.New("api request error")
+		return emptyData, errors.New("api request error")
 	}
 
-	result.Starships = starships
+	data.Vehicles = vehicles
 
-	return result, nil
+	// request is being imported from ./router.go
+	starships, err := request(searchTerm, "starships") // get data for the 'starchips' route
+
+	if err != nil {
+		return emptyData, errors.New("api request error")
+	}
+
+	data.Starships = starships
+
+	return data, nil
 }

@@ -1,5 +1,6 @@
 package swapi
 
+// package responsible for provide swapi data
 // responsible for get data in the SWAPI
 
 import (
@@ -8,13 +9,14 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/SousaGLucas/swsearch/log"
+	"github.com/SousaGLucas/swsearch/log" // package responsible for manage error log
 )
 
+// responsible for get data in the SWAPI
 func getData(url string) (map[string]interface{}, error) {
-	emptyData := make(map[string]interface{})
+	var emptyData map[string]interface{} // empty variable to return in the error cases
 
-	resp, err := http.Get(url)
+	resp, err := http.Get(url) // get swapi data
 
 	if err != nil {
 		log.SetLog(err)
