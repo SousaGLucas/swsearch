@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/SousaGLucas/swsearch/app/domain/entities/swdata"
+	"github.com/SousaGLucas/swsearch/log"
 )
 
 type Cache interface {
@@ -72,7 +73,7 @@ func (data Data) Clear() error {
 	err := writeCache()
 
 	if err != nil {
-		return errors.New("clear cache error")
+		return err
 	}
 
 	return nil
@@ -82,6 +83,7 @@ func readCache() error {
 	readCache, err := os.Open("cache.txt")
 
 	if err != nil {
+		log.SetLog(err)
 		return errors.New("cache read error")
 	}
 
@@ -95,6 +97,7 @@ func readCache() error {
 	}
 
 	if cacheScanner.Err() != nil {
+		log.SetLog(err)
 		return errors.New("cache read error")
 	}
 
@@ -105,6 +108,7 @@ func writeCache() error {
 	cacheFile, err := os.Create("cache.txt")
 
 	if err != nil {
+		log.SetLog(err)
 		return errors.New("cache create error")
 	}
 
@@ -117,6 +121,7 @@ func writeCache() error {
 	}
 
 	if cacheWriter.Flush() != nil {
+		log.SetLog(err)
 		return errors.New("cache create error")
 	}
 

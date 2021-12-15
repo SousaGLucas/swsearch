@@ -3,11 +3,7 @@ package swapi
 // package responsible for provide swapi data
 // responsible for order and organize SWAPI data, using the search term
 
-import (
-	"errors"
-
-	"github.com/SousaGLucas/swsearch/app/domain/entities/swdata" // package responsible for mirror database data
-)
+import "github.com/SousaGLucas/swsearch/app/domain/entities/swdata" // package responsible for mirror database data
 
 type Swapi interface {
 	Search(searchTerm string) (swdata.Data, error) // responsible for call serach swapi data function for each api route
@@ -25,7 +21,7 @@ func (result Result) Search(searchTerm string) (swdata.Data, error) {
 	people, err := request(searchTerm, "people") // get data for the 'people' route
 
 	if err != nil {
-		return emptyData, errors.New("api request error")
+		return emptyData, err
 	}
 
 	data.People = people
@@ -34,7 +30,7 @@ func (result Result) Search(searchTerm string) (swdata.Data, error) {
 	planets, err := request(searchTerm, "planets") // get data for the 'planets' route
 
 	if err != nil {
-		return emptyData, errors.New("api request error")
+		return emptyData, err
 	}
 
 	data.Planets = planets
@@ -43,7 +39,7 @@ func (result Result) Search(searchTerm string) (swdata.Data, error) {
 	films, err := request(searchTerm, "films") // get data for the 'films' route
 
 	if err != nil {
-		return emptyData, errors.New("api request error")
+		return emptyData, err
 	}
 
 	data.Films = films
@@ -52,7 +48,7 @@ func (result Result) Search(searchTerm string) (swdata.Data, error) {
 	species, err := request(searchTerm, "species") // get data for the 'species' route
 
 	if err != nil {
-		return emptyData, errors.New("api request error")
+		return emptyData, err
 	}
 
 	data.Species = species
@@ -61,7 +57,7 @@ func (result Result) Search(searchTerm string) (swdata.Data, error) {
 	vehicles, err := request(searchTerm, "vehicles") // get data for the 'vehicles' route
 
 	if err != nil {
-		return emptyData, errors.New("api request error")
+		return emptyData, err
 	}
 
 	data.Vehicles = vehicles
@@ -70,7 +66,7 @@ func (result Result) Search(searchTerm string) (swdata.Data, error) {
 	starships, err := request(searchTerm, "starships") // get data for the 'starchips' route
 
 	if err != nil {
-		return emptyData, errors.New("api request error")
+		return emptyData, err
 	}
 
 	data.Starships = starships
