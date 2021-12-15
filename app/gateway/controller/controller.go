@@ -35,6 +35,7 @@ func ClearChache() error {
 		return err
 	}
 
+	fmt.Printf("cache deleted\n")
 	return nil
 }
 
@@ -48,6 +49,6 @@ func GetCache() error {
 		return err
 	}
 
-	fmt.Printf("CACHE: %v\n\n", cacheData) // print current cache data
+	fmt.Printf("CACHE: %v\n", cacheData) // print current cache data
 	return nil
 }
