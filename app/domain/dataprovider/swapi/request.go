@@ -13,13 +13,10 @@ import (
 )
 
 // responsible for get data in the SWAPI
-func getData(url string) (map[string]interface{}, error) {
-	var emptyData map[string]interface{} // empty variable to return in the error cases
+func getData(url string) ([]map[string]interface{}, error) {
+	var emptyData []map[string]interface{} // empty variable to return in the error cases
 
 	resp, err := http.Get(url) // get swapi data
-
-	// data := emptyData
-	// var err error = nil
 
 	if err != nil {
 		log.SetLog(err)
@@ -35,9 +32,23 @@ func getData(url string) (map[string]interface{}, error) {
 		return emptyData, errors.New("error reading data")
 	}
 
-	var data map[string]interface{}
+	totalData := make(map[string]interface{})
 
-	if err := json.Unmarshal(body, &data); err != nil {
+	if err := json.Unmarshal(body, &totalData); err != nil {
+		log.SetLog(err)
+		return emptyData, errors.New("error reading data")
+	}
+
+	results, err := json.Marshal(totalData["results"])
+
+	if err != nil {
+		log.SetLog(err)
+		return emptyData, errors.New("error reading data")
+	}
+
+	var data []map[string]interface{}
+
+	if err := json.Unmarshal(results, &data); err != nil {
 		log.SetLog(err)
 		return emptyData, errors.New("error reading data")
 	}

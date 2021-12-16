@@ -19,18 +19,14 @@ type Result swdata.Data
 
 // resposible for get data that each route in the swapi
 func (result Result) GetData(searchTerm string) (swdata.Data, error) {
-	var emptyData swdata.Data // empty variable to return in the error cases
-
-	var cacheData cache.Cache
-	cacheData = cache.Data{}
+	emptyData := swdata.Data{} // empty variable to return in the error cases
+	cacheData := cache.Data{}
+	response := swapi.Result{}
 
 	// check if the term already serached
 	if searched := cacheData.CheckTerm(searchTerm); searched != nil {
 		return emptyData, searched
 	}
-
-	var response swapi.Swapi
-	response = swapi.Result{}
 
 	// get response data for the database
 	data, err := response.Search(searchTerm)
@@ -51,8 +47,7 @@ func (result Result) GetData(searchTerm string) (swdata.Data, error) {
 
 // responsible for call clear cache methode
 func (result Result) ClearCache() error {
-	var cacheData cache.Cache
-	cacheData = cache.Data{}
+	cacheData := cache.Data{}
 
 	err := cacheData.Clear() // call clear cache methode
 
@@ -65,10 +60,8 @@ func (result Result) ClearCache() error {
 
 // responsible for get cache data
 func (result Result) GetCache() (swdata.Cache, error) {
-	var cacheData cache.Cache
-	cacheData = cache.Data{}
-
-	emptyCache := swdata.Cache{}
+	emptyCache := swdata.Cache{} // empty variable to return in the error cases
+	cacheData := cache.Data{}
 
 	cache, err := cacheData.GetCache() // call clear cache methode
 

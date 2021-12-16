@@ -37,7 +37,7 @@ func (data Data) CheckTerm(searchTerm string) error {
 	}
 
 	if searched {
-		return errors.New(searchTerm + " already searched")
+		return errors.New("'" + searchTerm + "'" + " already searched")
 	}
 
 	return nil

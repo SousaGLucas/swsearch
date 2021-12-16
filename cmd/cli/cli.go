@@ -17,19 +17,42 @@ func Execute() {
 	flag.Parse()
 
 	if *searchTerm != "" {
-		controller.Search(*searchTerm) // call search data function
+		data, err := controller.Search(*searchTerm) // call search data function
+
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			return
+		}
+
+		fmt.Println(data)
 		return
 	}
 
 	if *clearCache1 || *clearCache2 {
-		controller.ClearChache() // call clear cache function
+		err := controller.ClearChache() // call clear cache function
+
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			return
+		}
+
+		fmt.Printf("cache deleted\n")
 		return
 	}
 
 	if *showCache {
-		controller.GetCache() // call get cache function
+		cache, err := controller.GetCache() // call get cache function
+
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			return
+		}
+
+		fmt.Printf("Cache: %v\n", cache)
 		return
 	}
+
+	// help message
 
 	fmt.Printf("\nSWSEARCH\n")
 	fmt.Printf("App for searching data from the Star Wars universe.\n\n")
@@ -42,4 +65,5 @@ func Execute() {
 	fmt.Printf("   -sc			show cache\n")
 
 	fmt.Printf("\n\n")
+	return
 }

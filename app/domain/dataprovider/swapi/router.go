@@ -4,8 +4,8 @@ package swapi
 // responsible for assembling the url for data request to SWAPI
 
 // responsible for assembling the url for data request to SWAPI
-func request(searchTerm, route string) (map[string]interface{}, error) {
-	var emptyData map[string]interface{} // empty variable to return in the error cases
+func request(searchTerm, route string) ([]map[string]interface{}, error) {
+	var emptyData []map[string]interface{} // empty variable to return in the error cases
 
 	// getData is being imported from ./swapi.go
 	// "https://swapi.dev/api/"
