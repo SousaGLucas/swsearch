@@ -1,30 +1,31 @@
 package cache
 
+// package responsible for manage cache data
+
 import (
 	"bufio"
 	"errors"
 	"fmt"
 	"os"
 
-	"github.com/SousaGLucas/swsearch/app/domain/entities/swdata"
-	"github.com/SousaGLucas/swsearch/log"
+	"github.com/SousaGLucas/swsearch/app/domain/entities/swdata" // package responsible for manage the business rule
+	"github.com/SousaGLucas/swsearch/log"                        // package responsible for logging system errors
 )
 
 type Cache interface {
-	CheckTerm(searchTerm string) error
-	Push(searchTerm string) error
-	GetCache() (swdata.Cache, error)
-	Clear() error
+	CheckTerm(searchTerm string) error // responsible for check if the searchTerm has already been searched
+	Push(searchTerm string) error      // responsible for push searcTerm in the cache file
+	GetCache() (swdata.Cache, error)   // responsibel for get cache data in the cache file
+	Clear() error                      // responsible for clear cache file
 }
 
 type Data swdata.Cache
 
-var cache swdata.Cache
-
+// responsible for check if the searchTerm has already been searched
 func (data Data) CheckTerm(searchTerm string) error {
 	searched := false
 
-	err := readCache()
+	cache, err := readCache()
 
 	if err != nil {
 		return err
@@ -36,6 +37,7 @@ func (data Data) CheckTerm(searchTerm string) error {
 		}
 	}
 
+	// checking if searchTerm has already been searched
 	if searched {
 		return errors.New("'" + searchTerm + "'" + " already searched")
 	}
@@ -43,34 +45,41 @@ func (data Data) CheckTerm(searchTerm string) error {
 	return nil
 }
 
+// responsible for push searcTerm in the cache file
 func (data Data) Push(searchTerm string) error {
-	cache = append(cache, searchTerm)
-
-	err := writeCache()
+	cache, err := readCache()
 
 	if err != nil {
+		return err
+	}
+
+	cache = append(cache, searchTerm)
+
+	writeErr := writeCache(cache)
+
+	if writeErr != nil {
 		return err
 	}
 
 	return nil
 }
 
+// responsibel for get cache data in the cache file
 func (data Data) GetCache() (swdata.Cache, error) {
-	emptyCache := swdata.Cache{}
-
-	err := readCache()
+	cache, err := readCache()
 
 	if err != nil {
-		return emptyCache, err
+		return cache, err
 	}
 
 	return cache, nil
 }
 
+// responsible for clear cache file
 func (data Data) Clear() error {
-	cache = []string{}
+	cache := swdata.Cache{}
 
-	err := writeCache()
+	err := writeCache(cache)
 
 	if err != nil {
 		return err
@@ -79,12 +88,15 @@ func (data Data) Clear() error {
 	return nil
 }
 
-func readCache() error {
+// responsible for read data in the cache file
+func readCache() (swdata.Cache, error) {
+	var cache swdata.Cache
+
 	readCache, err := os.Open("cache.txt")
 
 	if err != nil {
 		log.SetLog(err)
-		return errors.New("cache read error")
+		return cache, errors.New("cache read error")
 	}
 
 	defer readCache.Close()
@@ -98,13 +110,14 @@ func readCache() error {
 
 	if cacheScanner.Err() != nil {
 		log.SetLog(err)
-		return errors.New("cache read error")
+		return cache, errors.New("cache read error")
 	}
 
-	return nil
+	return cache, nil
 }
 
-func writeCache() error {
+// responsible for write data in the cache file
+func writeCache(cache swdata.Cache) error {
 	cacheFile, err := os.Create("cache.txt")
 
 	if err != nil {

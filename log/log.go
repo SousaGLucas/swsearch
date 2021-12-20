@@ -1,6 +1,6 @@
 package log
 
-// responsible for logging system errors
+// package responsible for logging system errors
 
 import "log"
 

@@ -1,14 +1,18 @@
 package cli
 
+// package responsible for controlling app access
+
 import (
 	"flag"
 	"fmt"
 
 	"github.com/SousaGLucas/swsearch/app/gateway/controller" // responsible for accessing the domain methods
+	"github.com/SousaGLucas/swsearch/app/gateway/rest"       // package responsible for controlling access to the app by REST API
 )
 
 func Execute() {
 	searchTerm := flag.String("s", "", "fetches data according to entered search term") // search data flag
+	restExecute := flag.Bool("rest", false, "execute REST API")                         // rest api data flag
 	clearCache1 := flag.Bool("c", false, "clear cache")                                 // clear cache flag
 	clearCache2 := flag.Bool("clear", false, "clear cache")                             // clear cache flag
 	showCache := flag.Bool("sc", false, "show cache")                                   // show cache flag
@@ -25,6 +29,11 @@ func Execute() {
 		}
 
 		fmt.Println(data)
+		return
+	}
+
+	if *restExecute {
+		rest.Execute()
 		return
 	}
 
@@ -63,6 +72,7 @@ func Execute() {
 	fmt.Printf("   -h, -help		show help message\n")
 	fmt.Printf("   -s [string]		fetches data according to entered search term\n")
 	fmt.Printf("   -sc			show cache\n")
+	fmt.Printf("   -rest		execute REST API\n")
 
 	fmt.Printf("\n\n")
 	return

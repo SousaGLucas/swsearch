@@ -6,9 +6,9 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/SousaGLucas/swsearch/app/domain/entities/swdata" // package responsible for mirror database data
-	"github.com/SousaGLucas/swsearch/app/domain/service"         // package responsible for manage the business rule
-	"github.com/SousaGLucas/swsearch/log"
+	// package responsible for mirror database data
+	"github.com/SousaGLucas/swsearch/app/domain/service" // package responsible for manage the business rule
+	"github.com/SousaGLucas/swsearch/log"                // package responsible for logging system errors
 )
 
 // resposible for get survey data
@@ -45,15 +45,21 @@ func ClearChache() error {
 }
 
 // responsible for get cache data
-func GetCache() (swdata.Cache, error) {
-	emptyCache := swdata.Cache{} // empty variable to return in the error cases
+func GetCache() (string, error) {
 	response := service.Result{}
 
 	cacheData, err := response.GetCache() // get current cache data
 
 	if err != nil {
-		return emptyCache, err
+		return "[]", err
 	}
 
-	return cacheData, nil
+	jsonCache, err := json.Marshal(cacheData)
+
+	if err != nil {
+		log.SetLog(err)
+		return "[]", errors.New("error reading cache")
+	}
+
+	return string(jsonCache), nil
 }

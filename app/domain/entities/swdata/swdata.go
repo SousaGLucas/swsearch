@@ -1,6 +1,6 @@
 package swdata
 
-// package responsible for mirror database data
+// package responsible for manage the business rule
 
 type Data struct {
 	People    []People    `json:"people"`

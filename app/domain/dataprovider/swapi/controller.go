@@ -3,7 +3,7 @@ package swapi
 // package responsible for provide swapi data
 // responsible for order and organize SWAPI data, using the search term
 
-import "github.com/SousaGLucas/swsearch/app/domain/entities/swdata" // package responsible for mirror database data
+import "github.com/SousaGLucas/swsearch/app/domain/entities/swdata" // package responsible for manage the business rule
 
 type Swapi interface {
 	Search(searchTerm string) (swdata.Data, error) // responsible for call serach swapi data function for each api route
