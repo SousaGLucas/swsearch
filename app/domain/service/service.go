@@ -59,9 +59,8 @@ func (result Result) ClearCache() error {
 }
 
 // responsible for get cache data
-func (result Result) GetCache() (swdata.Cache, error) {
+func (result Result) GetCache(cacheData cache.Cache) (swdata.Cache, error) {
 	emptyCache := swdata.Cache{} // empty variable to return in the error cases
-	cacheData := cache.Data{}
 
 	cache, err := cacheData.GetCache() // call clear cache methode
 

@@ -7,6 +7,7 @@ import (
 	"errors"
 
 	// package responsible for mirror database data
+	"github.com/SousaGLucas/swsearch/app/domain/dataprovider/cache"
 	"github.com/SousaGLucas/swsearch/app/domain/service" // package responsible for manage the business rule
 	"github.com/SousaGLucas/swsearch/log"                // package responsible for logging system errors
 )
@@ -47,14 +48,15 @@ func ClearChache() error {
 // responsible for get cache data
 func GetCache() (string, error) {
 	response := service.Result{}
+	cacheData := cache.MockData{}
 
-	cacheData, err := response.GetCache() // get current cache data
+	cache, err := response.GetCache(cacheData) // get current cache data
 
 	if err != nil {
 		return "[]", err
 	}
 
-	jsonCache, err := json.Marshal(cacheData)
+	jsonCache, err := json.Marshal(cache)
 
 	if err != nil {
 		log.SetLog(err)

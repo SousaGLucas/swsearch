@@ -140,3 +140,27 @@ func writeCache(cache swdata.Cache) error {
 
 	return nil
 }
+
+/* ----------------------------------------------------------------
+	MOCK FUNCTIONS FOR TESTING
+---------------------------------------------------------------- */
+
+type MockData swdata.Cache
+
+func (data MockData) CheckTerm(searchTerm string) error {
+	return nil
+}
+
+func (data MockData) Push(searchTerm string) error {
+	return nil
+}
+
+func (dada MockData) GetCache() (swdata.Cache, error) {
+	cache := []string{"Sky", "r2", "Lea"}
+
+	return cache, nil
+}
+
+func (data MockData) Clear() error {
+	return nil
+}
