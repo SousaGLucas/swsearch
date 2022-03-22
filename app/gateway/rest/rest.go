@@ -22,7 +22,7 @@ func Execute() {
 		r.Delete("/", clearCache) // clear cache route
 	})
 
-	err := http.ListenAndServe(":8080", r)
+	err := http.ListenAndServe(":3005", r)
 
 	if err != nil {
 		log.SetLog(err)

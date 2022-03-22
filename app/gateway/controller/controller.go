@@ -8,6 +8,7 @@ import (
 
 	// package responsible for mirror database data
 	"github.com/SousaGLucas/swsearch/app/domain/dataprovider/cache"
+	"github.com/SousaGLucas/swsearch/app/domain/dataprovider/swapi"
 	"github.com/SousaGLucas/swsearch/app/domain/service" // package responsible for manage the business rule
 	"github.com/SousaGLucas/swsearch/log"                // package responsible for logging system errors
 )
@@ -15,8 +16,10 @@ import (
 // resposible for get survey data
 func Search(searchTerm string) (string, error) {
 	response := service.Result{}
+	cacheData := cache.Data{}
+	responseData := swapi.Result{}
 
-	data, err := response.GetData(searchTerm) // get survey data
+	data, err := response.GetData(searchTerm, responseData, cacheData) // get survey data
 
 	if err != nil {
 		return "[]", err
@@ -35,8 +38,9 @@ func Search(searchTerm string) (string, error) {
 // responsible for clear cache data
 func ClearChache() error {
 	response := service.Result{}
+	cacheData := cache.Data{}
 
-	err := response.ClearCache() // clear cache data
+	err := response.ClearCache(cacheData) // clear cache data
 
 	if err != nil {
 		return err
@@ -48,7 +52,7 @@ func ClearChache() error {
 // responsible for get cache data
 func GetCache() (string, error) {
 	response := service.Result{}
-	cacheData := cache.MockData{}
+	cacheData := cache.Data{}
 
 	cache, err := response.GetCache(cacheData) // get current cache data
 
